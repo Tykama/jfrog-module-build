@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "tykama.jfrog.io/tf__clouds/vpc/local"
+  source = "https://tykama.jfrog.io/artifactory/tf/cloudops/vpc/local"
   version = "v1.0.1"
 
   private_cidr = var.private_cidr
