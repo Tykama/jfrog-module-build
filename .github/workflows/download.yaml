@@ -1,0 +1,36 @@
+name: download
+on:
+    push:
+        branches:
+        - main
+#env:
+    #URL: "tykama.jfrog.io"
+
+jobs:
+    init:
+        permissions:
+            id-token: write
+            contents: read
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./vpc
+        steps:
+            - name: clone repo
+              uses: actions/checkout@v4
+             # Setup ~/.terraformrc
+            - uses: StudistCorporation/actions-setup-terraform-credentials@v1.0.0
+              with:
+                token: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
+                hostname: ${{ secrets.JF_URL }}
+            - name: Install terraform
+              uses: hashicorp/setup-terraform@v3
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: "us-west-2"
+                role-to-assume: ${{ secrets.CI_ROLE }}
+            - name: init
+              run: terraform init
+            - name: plan
+              run: terraform plan
