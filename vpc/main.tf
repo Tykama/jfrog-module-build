@@ -1,6 +1,6 @@
 module "vpc" {
   source = "tykama.jfrog.io/tf__clouds/vpc/local"
-  version = "v1.0.2"
+  version = "v1.0.1"
 
   private_cidr = var.private_cidr
   availability_zones = var.availability_zones
